@@ -46,52 +46,107 @@
 // }
 
 
-import React, { useState } from "react";
-import { Box, TextField } from "@mui/material";
-
-// let id='jB2MW5ZR8qU'
+import React, { useEffect, useState } from "react";
+import { Box, TextField, Button } from "@mui/material";
 
 export default function App() {
-  const [id, setId]=useState('vqcmef3-MukVkkAn')
-let url=`https://www.youtube.com/embed/${id}`
-let url2='https://blog.logrocket.com/building-structuring-node-js-mvc-application/'
+  const [url, setUrl] = useState("");
+  const [deviceType, setDeviceType] = useState("desktop");
+  const [rotate, setRotate] = useState(false);
+
+  const createURL = (text) => {
+    if (text.includes("&list=")) {
+      let id = text.split("&list=")[1];
+      setUrl(`https://www.youtube.com/embed/videoseries?list=${id}`);
+      return;
+    }
+
+    let id = text.split("?v=")[1];
+    setUrl(`https://www.youtube.com/embed/${id}`);
+  };
+
+  const detectDevice = () => {
+    const width = window.innerWidth;
+    if (width < 768) {
+      setDeviceType("mobile");
+      setRotate(true); // auto-rotate for mobile
+    } else if (width >= 768 && width < 1024) {
+      setDeviceType("tablet");
+    } else {
+      setDeviceType("desktop");
+    }
+  };
+
+  useEffect(() => {
+    detectDevice();
+    window.addEventListener("resize", detectDevice);
+    return () => window.removeEventListener("resize", detectDevice);
+  }, [window]);
+
   return (
     <>
-     <TextField
-                sx={{
-                  marginBlock: 1,
-                  width: '90%',
-                  alignSelf: 'center',
-              
-                }}
-                id="outlined-basic"
-                label="UserName"
-                variant="outlined"
-                value={id}
-                onChange={(event) => setId(event.target.value)}
-              />
-    <Box
-    sx={{
-      width: "100vw",
-      height: "100vh",
-      overflow: "hidden",
-    }}
-  >
-    <iframe
-      src={url}
-      title="WebTab"
-      style={{
-        width: "100%",
-        height: "100%",
-        border: "1px solid grey",
-      }}
-    />
-  </Box>
-    </>
-    
+      <TextField
+        sx={{
+          marginBlock: 1,
+          width: "90%",
+          alignSelf: "center",
+        }}
+        id="outlined-basic"
+        label="YouTube URL"
+        variant="outlined"
+        onChange={(event) => {
+          createURL(event.target.value);
+        }}
+      />
 
+      {deviceType === "tablet" && (
+        <Button
+          variant="outlined"
+          onClick={() => setRotate((prev) => !prev)}
+          sx={{ margin: 2 }}
+        >
+          {rotate ? "Undo Rotate" : "Rotate Video"}
+        </Button>
+      )}
+
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: rotate ? "100vh" : "100%",
+            height: rotate ? "100vw" : "100%",
+            transform: rotate ? "rotate(90deg)" : "none",
+            transformOrigin: "center",
+            transition: "transform 0.3s ease",
+          }}
+        >
+          {url && (
+            <iframe
+              src={url}
+              title="YouTube Embed"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "1px solid grey",
+              }}
+              allowFullScreen
+            />
+          )}
+        </Box>
+      </Box>
+    </>
   );
 }
+
+
 
 
 
