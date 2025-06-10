@@ -55,16 +55,49 @@ export default function App() {
   const [rotate, setRotate] = useState(false);
 
   const createURL = (text) => {
+    if (text.includes("&si="))
+      text = text.split("&si=")[0]
+
+    if (text.includes("?si="))
+      text = text.split("?si=")[0]
+    console.log("1", text);
+
     if (text.includes("&list=")) {
       let id = text.split("&list=")[1];
-      setUrl(`https://www.youtube.com/embed/videoseries?list=${id}`);
+      setUrl(() => {
+        // console.log("-=list=-", `https://www.youtube.com/embed/videoseries?list=${id}`);
+        return `https://www.youtube.com/embed/videoseries?list=${id}`
+      });
       return;
     }
+    if (text.includes("?list=")) {
+      let id = text.split("?list=")[1];
+      setUrl(() => {
+        // console.log("-=list=-", `https://www.youtube.com/embed/videoseries?list=${id}`);
+        return `https://www.youtube.com/embed/videoseries?list=${id}`
+      });
+      return;
+    }
+    if (text.includes("?v=")) {
+      let id = text.split("?v=")[1];
+      setUrl(() => {
+        // console.log("-==-", `https://www.youtube.com/embed/${id}`);
+        return `https://www.youtube.com/embed/${id}`
+      });
+    }
 
-    let id = text.split("?v=")[1];
-    setUrl(`https://www.youtube.com/embed/${id}`);
+    let index = text.lastIndexOf('/');
+    let id= text.slice(index);
+    setUrl(() => {
+      console.log("-==-", `https://www.youtube.com/embed/${id}`);
+      return `https://www.youtube.com/embed/${id}`
+    });
+
+
+
   };
 
+  //https://youtube.com/playlist?list=RDATli&playnext=1&si=7T4BhAqH_ES-gNz1
   const detectDevice = () => {
     const width = window.innerWidth;
     if (width < 768) {
