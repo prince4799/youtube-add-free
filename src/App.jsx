@@ -51,16 +51,14 @@ import { Box, TextField, Button } from "@mui/material";
 
 export default function App() {
   const [url, setUrl] = useState("");
-  const [deviceType, setDeviceType] = useState("desktop");
-  const [rotate, setRotate] = useState(false);
 
   const createURL = (text) => {
+
     if (text.includes("&si="))
       text = text.split("&si=")[0]
 
     if (text.includes("?si="))
       text = text.split("?si=")[0]
-    console.log("1", text);
 
     if (text.includes("&list=")) {
       let id = text.split("&list=")[1];
@@ -76,7 +74,7 @@ export default function App() {
         // console.log("-=list=-", `https://www.youtube.com/embed/videoseries?list=${id}`);
         return `https://www.youtube.com/embed/videoseries?list=${id}`
       });
-      return;
+      return
     }
     if (text.includes("?v=")) {
       let id = text.split("?v=")[1];
@@ -84,6 +82,7 @@ export default function App() {
         // console.log("-==-", `https://www.youtube.com/embed/${id}`);
         return `https://www.youtube.com/embed/${id}`
       });
+      return
     }
 
     let index = text.lastIndexOf('/');
@@ -97,24 +96,6 @@ export default function App() {
 
   };
 
-  //https://youtube.com/playlist?list=RDATli&playnext=1&si=7T4BhAqH_ES-gNz1
-  const detectDevice = () => {
-    const width = window.innerWidth;
-    if (width < 768) {
-      setDeviceType("mobile");
-      setRotate(true); // auto-rotate for mobile
-    } else if (width >= 768 && width < 1024) {
-      setDeviceType("tablet");
-    } else {
-      setDeviceType("desktop");
-    }
-  };
-
-  useEffect(() => {
-    detectDevice();
-    window.addEventListener("resize", detectDevice);
-    return () => window.removeEventListener("resize", detectDevice);
-  }, [window]);
 
   return (
     <>
@@ -132,15 +113,6 @@ export default function App() {
         }}
       />
 
-      {deviceType === "tablet" && (
-        <Button
-          variant="outlined"
-          onClick={() => setRotate((prev) => !prev)}
-          sx={{ margin: 2 }}
-        >
-          {rotate ? "Undo Rotate" : "Rotate Video"}
-        </Button>
-      )}
 
       <Box
         sx={{
@@ -154,9 +126,9 @@ export default function App() {
       >
         <Box
           sx={{
-            width: rotate ? "100vh" : "100%",
-            height: rotate ? "100vw" : "100%",
-            transform: rotate ? "rotate(90deg)" : "none",
+            width:  "100%",
+            height:  "100%",
+            transform: "none",
             transformOrigin: "center",
             transition: "transform 0.3s ease",
           }}
