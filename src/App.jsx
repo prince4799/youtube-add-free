@@ -1,56 +1,16 @@
 
-// import { Box, Button, ButtonGroup, Drawer, TextField, Typography } from "@mui/material";
-// import RemoveIcon from "@mui/icons-material/Remove";
-// import AddIcon from "@mui/icons-material/Add";
-// import React, { useState, useEffect } from "react";
-// import { TextFieldsOutlined } from "@mui/icons-material";
-// import { useLogin, useSignUP } from "./utilities/customHooks";
-// import TopBar from "./components/AppBar";
-// import { AppForm } from "./components/AppForm";
-
-// const useTime = () => {
-//   const getCurrentTime = () => {
-//     const date = new Date(); //;
-//     const utcOffset = 5.5 * 60 * 60 * 1000; // IST is UTC +5:30
-//     const istDate = new Date(date.getTime() + utcOffset);
-
-//     return `${istDate.getUTCHours()}:${istDate.getUTCMinutes()}:${istDate.getUTCSeconds()}`;
-//   };
-
-//   const [currentTime, setCurrentTime] = useState(getCurrentTime);
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setCurrentTime(getCurrentTime());
-//     }, 1000);
-
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const setMyTime = (timeString) => {
-//     setCurrentTime(timeString);
-//   };
-
-//   return [currentTime, setMyTime];
-// };
-
-// export default function App() {
-// console.log("running");
-
-
-//   return (
-//     <>
-//     <TopBar/>
-//     <AppForm/>
-//     </>
-//   );
-// }
-
 
 import React, { useEffect, useState } from "react";
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, Alert } from "@mui/material";
 
 export default function App() {
   const [url, setUrl] = useState("");
+  //https://youtube.com/shorts/QqbCyc67e64?si=lHS4cALjCmMFukZL
+
+  useEffect(()=>{
+    alert("Watch this short to know how it works.")
+    setUrl(`https://www.youtube.com/embed/QqbCyc67e64`)
+  },[])
 
   const createURL = (text) => {
 
