@@ -135,8 +135,10 @@ export default function App() {
         >
           {url && (
             <iframe
-              src={url}
+              // src={url}
+              src={`${url}?enablejsapi=1&autoplay=1`}
               title="YouTube Embed"
+              allow="autoplay; encrypted-media; picture-in-picture"
               style={{
                 width: "100%",
                 height: "100%",
