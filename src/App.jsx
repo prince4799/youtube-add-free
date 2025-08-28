@@ -1,16 +1,24 @@
 
 
 import React, { useEffect, useState } from "react";
-import { Box, TextField, Button, Alert } from "@mui/material";
+import { Box, TextField, Button, Alert, ButtonGroup } from "@mui/material";
 
 export default function App() {
   const [url, setUrl] = useState("");
+  const [mode,setMode]= useState('video')
   //https://youtube.com/shorts/QqbCyc67e64?si=lHS4cALjCmMFukZL
 
   useEffect(()=>{
     alert("Watch this short to know how it works.")
     setUrl(`https://www.youtube.com/embed/QqbCyc67e64`)
   },[])
+
+  const goFullscreen = () => {
+    const iframe = document.getElementById("ytplayer");
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen(); // Safari
+    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen(); // IE11
+  };
 
   const createURL = (text) => {
 
@@ -72,7 +80,21 @@ export default function App() {
           createURL(event.target.value);
         }}
       />
-
+ {/* Controls */}
+ <ButtonGroup sx={{ margin: 2 }}>
+        <Button
+          variant={mode === "video" ? "contained" : "outlined"}
+          onClick={() => {setMode("video");goFullscreen() }}
+        >
+          Back-ground
+        </Button>
+        <Button
+          variant={mode === "pip" ? "contained" : "outlined"}
+          onClick={() => {setMode("pip");goFullscreen()}}
+        >
+          Video + PiP
+        </Button>
+      </ButtonGroup>
 
       <Box
         sx={{
@@ -93,7 +115,7 @@ export default function App() {
             transition: "transform 0.3s ease",
           }}
         >
-          {url && (
+          {url && mode == 'pip' && (
             <iframe
               // src={url}
               src={`${url}?enablejsapi=1&autoplay=1`}
@@ -104,7 +126,20 @@ export default function App() {
                 height: "100%",
                 border: "1px solid grey",
               }}
-              allowFullScreen
+              allowFullScreen={true}
+            />
+          )}
+
+          {url && mode=='video' && (
+            <iframe
+              src={url}
+              title="YouTube Embed"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "1px solid grey",
+              }}
+              allowFullScreen={true}
             />
           )}
         </Box>
