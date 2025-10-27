@@ -288,7 +288,7 @@ export default function App() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") searchYouTube();
+            if (e.key === "Enter") searchYouTube(filter);
           }}
         />
 
