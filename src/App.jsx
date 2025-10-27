@@ -327,20 +327,38 @@ export default function App() {
           </Button>
 </Box>}
       {/* Search Results */}
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         {searchResults.map((item, idx) => (
-          <Grid item xs={12} sm={6} md={4} key={idx}>
+          <Grid item xs={12} sm={6} md={4} key={idx} >
             <Card
-              sx={{ cursor: "pointer", width:250, height:250,  }}
+              sx={{
+                cursor: "pointer",
+                width: "100%",
+                height: 250,
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.03)",
+                },
+                // ✅ Responsive styles using breakpoints
+                "@media (max-width:600px)": {
+                  width: '100%',
+                },
+                "@media (min-width:600px) and (max-width:900px)": {
+                  width: 250,
+                },
+                "@media (min-width:900px)": {
+                  width: 220,
+                },
+              }}
               onClick={() => handleItemClick(item)}
             >
               <CardMedia
                 component="img"
                 height="180"
                 width="180"
-                backgroundColor='gray'
                 image={item.snippet?.thumbnails?.medium?.url}
                 alt={item.snippet?.title}
+                
               />
               <CardContent>
                 <Typography variant="subtitle1" fontWeight="bold"  >
