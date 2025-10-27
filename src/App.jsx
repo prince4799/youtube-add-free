@@ -331,17 +331,19 @@ export default function App() {
         {searchResults.map((item, idx) => (
           <Grid item xs={12} sm={6} md={4} key={idx}>
             <Card
-              sx={{ cursor: "pointer" }}
+              sx={{ cursor: "pointer", width:250, height:250,  }}
               onClick={() => handleItemClick(item)}
             >
               <CardMedia
                 component="img"
                 height="180"
+                width="180"
+                backgroundColor='gray'
                 image={item.snippet?.thumbnails?.medium?.url}
                 alt={item.snippet?.title}
               />
               <CardContent>
-                <Typography variant="subtitle1" fontWeight="bold">
+                <Typography variant="subtitle1" fontWeight="bold"  >
                   {item.snippet?.title}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
