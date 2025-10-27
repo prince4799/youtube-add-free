@@ -292,7 +292,7 @@ export default function App() {
           }}
         />
 
-        <Button variant="contained" onClick={() => searchYouTube()}>
+        <Button variant="contained" onClick={() => searchYouTube(filter)}>
           Search
         </Button>
       </Box>
